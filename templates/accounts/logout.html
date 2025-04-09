@@ -1,0 +1,18 @@
+{% extends "partials/base.html" %}
+{% block main_contentcontent %}
+        <section id="services" class="services section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Log in</h2>
+        <p>Please log in to access your account and continue working with our tools. Enter your credentials below.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+    <h2>Излязохте от акаунта си</h2>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a href="{% url 'login' %}">Влезте отново</a>
+        </small>
+    </div>
+{% endblock %}

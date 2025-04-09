@@ -1,0 +1,32 @@
+
+{% extends "partials/base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+        <section id="services" class="services section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Register</h2>
+        <p>Please log in to access your account and continue working with our tools. Enter your credentials below.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Регистрация</legend>
+                {{ form }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit" style="display: flex; justify-content: center; align-items: center; padding: 10px 20px; background-color: #388da8; color: white; border: none; border-radius: 6px; cursor: pointer;" >Register</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Вече имате акаунт? <a class="ml-2" href="{% url 'login' %}">Вход</a>
+            </small>
+        </div>
+    </div>
+{% endblock%}

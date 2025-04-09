@@ -1,0 +1,76 @@
+{% extends "partials/base.html" %}
+{% block title %}Всички теми{% endblock %}
+{% block main_content %}
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Всички теми</h1>
+            {% if user.is_authenticated %}
+                <a href="{% url 'theme_create' %}" class="btn btn-primary">Създаване на нова тема</a>
+            {% endif %}
+        </div>
+
+        {% if page_obj %}
+            <div class="row">
+                {% for theme in page_obj %}
+                    <div class="col-lg-6 col-md-12 mb-4">
+                        <div class="card h-100">
+                            {% if theme.banner_image %}
+                                <img src="{{ theme.banner_image.url }}" class="card-img-top" alt="{{ theme.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ theme.title }}</h5>
+                                {% if theme.subtitle %}
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ theme.subtitle }}</h6>
+                                {% endif %}
+                                <p class="card-text text-truncate">{{ theme.content|truncatechars:150 }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <small class="text-muted">Създадена от {{ theme.creator.username }} на {{ theme.created_date|date:"d.m.Y" }}</small>
+                                <a href="{% url 'theme_detail' pk=theme.pk %}" class="btn btn-sm btn-outline-primary float-end">Прочети повече</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Пагинация -->
+            {% if page_obj.has_other_pages %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">&laquo; Първа</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предишна</a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следваща</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последна &raquo;</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-info">Все още няма създадени теми.</div>
+        {% endif %}
+    </div>
+{% endblock %}

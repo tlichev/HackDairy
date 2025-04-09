@@ -1,0 +1,38 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+        <section id="services" class="services section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Profile</h2>
+        <p>Your profile info</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+    <div class="content-section">
+        <div class="media">
+            {% if user.profile.profile_picture %}
+                <img class="rounded-circle account-img" src="{{ user.profile.profile_picture.url }}" style="width: 300px; height: 300px">
+            {% else %}
+                <img class="rounded-circle account-img" src="/media/default.jpg">
+            {% endif %}
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Информация за профила</legend>
+                {{ u_form }}
+                {{ p_form }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit" style="display: flex; justify-content: center; align-items: center; padding: 10px 20px; background-color: #388da8; color: white; border: none; border-radius: 6px; cursor: pointer;" >Актуализиране</button>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

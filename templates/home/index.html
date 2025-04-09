@@ -1,0 +1,173 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block main_content %}
+
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="hero-bg">
+        <img src="{% static '/img/hero-bg-light.webp' %}" alt="">
+      </div>
+        {% if not user.is_authenticated %}
+      <div class="container text-center">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <h1 data-aos="fade-up">Welcome to <span>HackDairy</span></h1>
+          <p data-aos="fade-up" data-aos-delay="100">Your Daily Dose of Tech, Code, and Creativity. Dive into fresh blogs, tips, and insights from the world of hacking and development.<br></p>
+          <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+{#            <a href="{% url 'signup' %}" class="btn-get-started">Get Started</a>#}
+          </div>
+                        <img src="{% static 'img/hackdairy2.png' %}" class="img-fluid hero-img aos-init aos-animate" alt="" data-aos="zoom-out" data-aos-delay="300">
+
+        </div>
+      </div>
+        {% else %}
+      <div class="container text-center">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <h1 data-aos="fade-up">Welcome <span>{{ user.username }}</span></h1>
+          <p data-aos="fade-up" data-aos-delay="100">Your Daily Dose of Tech, Code, and Creativity. Dive into fresh blogs, tips, and insights from the world of hacking and development.<br></p>
+          <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+{#            <a href="{% url 'compute' %}" class="btn-get-started">Compute</a>#}
+          </div>
+        </div>
+      </div>
+
+        {% endif %}
+
+    </section><!-- /Hero Section -->
+
+
+  </main>
+
+       <section id="features" class="features section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Themes</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+   {% if themes %}
+       {% for theme in themes %}
+            <div class="container">
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 d-flex align-items-center">
+
+            <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+              <li class="nav-item">
+                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
+                  <div>
+                    <h1 class="d-none d-lg-block">{{ theme.title }}</h1>
+                      {% if theme.subtitle %}
+                          <p>{{ theme.subtitle }}</p>
+                      {% endif %}
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
+                  <div>
+                      <div>
+{#                    <p class="d-none d-lg-block">{{ theme.content|linebreaks }}</p>#}
+                    </div>
+                      <div>
+                          <p>
+                        <small>Създадена от {{ theme.creator.username }} на {{ theme.created_date|date:"d.m.Y H:i" }}</small>
+
+                    </p>
+                          </div>
+                    <div class="mt-3">
+                        <a href="{% url 'theme_detail' pk=theme.pk %}" class="btn btn-outline-primary me-2">Към темата</a>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul><!-- End Tab Nav -->
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="tab-pane fade active show" id="features-tab-1">
+                <img src="{{ theme.banner_image.url }}" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+
+              <div class="tab-pane fade" id="features-tab-2">
+                <img src="{{ theme.banner_image.url }}" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+
+              <div class="tab-pane fade" id="features-tab-3">
+                <img src="{{ theme.banner_image.url }}" alt="" class="img-fluid">
+              </div><!-- End Tab Content Item -->
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    {% endfor %}
+
+{% else %}
+    <div class="alert alert-info">Все още няма създадени теми.</div>
+{% endif %}
+
+
+
+    <section id="services" class="services section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Themes actions</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row g-5">
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item item-cyan position-relative">
+              <i class="bi bi-activity icon"></i>
+              <div>
+
+
+                <h3>Create theme</h3>
+                        {% if user.is_authenticated %}
+                <a href="{% url 'theme_create' %}" class="read-more stretched-link">Създай тема <i class="bi bi-arrow-right"></i></a>
+                   {% endif %}
+                  <p>„От малките идеи се раждат големите промени – създай нещо, което оставя следа.“</p>
+
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item item-orange position-relative">
+              <i class="bi bi-broadcast icon"></i>
+              <div>
+                <h3>View al themes</h3>
+                <p>„Всяка тема крие идея – разгледай ги всички и открий своята.“</p>
+                <a href="{% url 'theme_list' %}" class="read-more stretched-link">View all themes <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+
+
+
+    </section><!-- /Features Section -->
+
+
+{% endblock %}

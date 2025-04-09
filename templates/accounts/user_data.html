@@ -1,0 +1,24 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block main_content %}
+ <!-- Services Section -->
+    <section id="services" class="services section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Log in</h2>
+        <p>Please log in to access your account and continue working with our tools. Enter your credentials below.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+  <h2>Довърши регистрацията</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Изпрати</button>
+  </form>
+
+</div>
+{% endblock %}

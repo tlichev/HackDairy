@@ -1,0 +1,33 @@
+{% extends "partials/base.html" %}
+{% block title %}Изтриване на тема{% endblock %}
+{% block main_content %}
+    <section id="services" class="services section light-background">
+      <div class="container section-title" data-aos="fade-up">
+        <h2> Confirm </h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h2>Изтриване на тема</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5>Сигурни ли сте, че искате да изтриете темата "{{ theme.title }}"?</h5>
+                        <p class="text-danger">Това действие е необратимо и ще изтрие всички свързани коментари!</p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a href="{% url 'theme_detail' pk=theme.pk %}" class="btn btn-outline-secondary me-md-2">Отказ</a>
+                                <button type="submit" class="btn btn-danger">Потвърди изтриването</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+          </div>
+
+    </section>
+{% endblock %}

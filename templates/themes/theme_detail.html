@@ -1,0 +1,113 @@
+{% extends "partials/base.html" %}
+{% block title %}{{ theme.title }}{% endblock %}
+{% block main_content %}
+
+<section style="
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    background-image: url({{ theme.banner_image.url  }});
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  ">
+
+    <!-- Замъглено покритие -->
+    <div style="
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      z-index: 1;
+    "></div>
+
+    <!-- Текстово съдържание -->
+    <div style="
+      position: relative;
+      z-index: 2;
+      color: white;
+      text-align: center;
+    ">
+      <h1 style="font-size: 3rem; margin-bottom: 0.5rem; color: white">{{ theme.title }}</h1>
+          {% if theme.subtitle %}
+            <p style="font-size: 1.5rem;">{{ theme.subtitle }}</p>
+
+        {% endif %}
+    </div>
+
+  </section>
+
+
+<section id="services" class="services section light-background">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Коментари ({{ comments.count }})</h2>
+
+      </div><!-- End Section Title -->
+
+         <div class="card mb-4">
+            <div class="card-header">
+    {% if comments %}
+                    {% for comment in comments %}
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+<div class="g-mb-15" style="display: flex; align-items: center;">
+                      <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="{{ comment.author.profile.profile_picture.url }}" alt="Image Description">
+
+                    <h5 class="h5 g-color-gray-dark-v1 mb-0">{{ comment.author.username  }}</h5>
+                  </div>                                    <small class="text-muted">{{ comment.created_date|date:"d.m.Y H:i" }}</small>
+                                </div>
+                                <p class="card-text mt-2">{{ comment.text|safe }}</p>
+                                {% if user == comment.author %}
+                                    <form method="post" action="{% url 'comment_delete' pk=comment.pk %}" class="mt-2">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger float-end">Изтрий</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-light">Все още няма коментари.</div>
+                {% endif %}
+
+
+          </div><!-- End Contact Form -->
+
+    </div>
+
+
+
+
+</section>
+<section id="services" class="services section light-background">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Коментари ({{ comments.count }})</h2>
+    {% if user.is_authenticated %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ comment_form.text }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Добави коментар </button>
+                    </form>
+                    <hr>
+                {% else %}
+                    <div class="alert alert-info">
+                        <a href="{% url 'login' %}">Влезте</a> за да коментирате.
+                    </div>
+                {% endif %}
+
+    {% if user == theme.creator %}
+                    <div class="mt-3">
+                        <a href="{% url 'theme_edit' pk=theme.pk %}" class="btn btn-outline-primary me-2">Редактиране</a>
+                        <a href="{% url 'theme_delete' pk=theme.pk %}" class="btn btn-outline-danger">Изтриване</a>
+                    </div>
+                {% endif %}
+
+  </section>
+
+{% endblock %}
