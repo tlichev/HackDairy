@@ -60,7 +60,7 @@
                     <h5 class="h5 g-color-gray-dark-v1 mb-0">{{ comment.author.username  }}</h5>
                   </div>                                    <small class="text-muted">{{ comment.created_date|date:"d.m.Y H:i" }}</small>
                                 </div>
-                                <p class="card-text mt-2">{{ comment.text|safe }}</p>
+                                <p class="card-text mt-2">{{ comment.text }}</p>
                                 {% if user == comment.author %}
                                     <form method="post" action="{% url 'comment_delete' pk=comment.pk %}" class="mt-2">
                                         {% csrf_token %}
