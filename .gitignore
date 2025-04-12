@@ -1,0 +1,10 @@
+*.sqlite3
+*.db
+**/migrations/
+
+.vscode/
+.idea/
+.venv/
+
+staticfiles/
+media/
